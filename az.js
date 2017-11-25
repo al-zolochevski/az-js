@@ -1,45 +1,45 @@
-window.az = {
-    /**
-     * @param {Element} element
-    */
-    remove: function (element) {
-        element.parentNode.removeChild(element);
-    },
+/**
+ * @param {Element} element
+*/
+window.az = function (element) {
+    return {
+        remove: function () {
+            element.parentNode.removeChild(element);
+        },
 
-    /**
-     * @param {Element} element
-     * @param {Element} wrapper
-     */
-    wrap: function(element, wrapper) {
-        var parent = element.parentNode;
-        parent.insertBefore(wrapper, element);
-        wrapper.appendChild(element);
-    },
+        /**
+         * @param {Element} wrapper
+         */
+        wrap: function(wrapper) {
+            var parent = element.parentNode;
+            parent.insertBefore(wrapper, element);
+            wrapper.appendChild(element);
+        },
 
-    /**
-     * @param {string} tagName
-     * @param {string[]} classNames
-     * @return {Element}
-     */
-    create: function(tagName, classNames) {
-        var element = document.createElement(tagName);
-        classNames.forEach(function (className){
-            element.classList.add(className);
-        });
-        return element;
-    },
+        /**
+         * @param {Element} wrapper
+         */
+        unwrap: function(wrapper) {
+            // TODO: insertBefore(element, wrapper)
+            var parent = wrapper.parentNode;
+            parent.insertBefore(element, wrapper);
 
-    /**
-     * @param {Element} target
-     * @param {Element} wrapper
-     */
-    unwrap: function(target, wrapper) {
-        // TODO: insertBefore(target, wrapper)
-        var parent = wrapper.parentNode;
-        parent.insertBefore(target, wrapper);
+            // TODO: hide(element)
+            element.style.display = "none";
+            az(wrapper).remove();
+        }
+    };
+};
 
-        // TODO: hide(target)
-        target.style.display = "none";
-        az.remove(wrapper);
-    }
+/**
+ * @param {string} tagName
+ * @param {string[]} classNames
+ * @return {Element}
+ */
+window.az.create = function(tagName, classNames) {
+    var element = document.createElement(tagName);
+    classNames.forEach(function (className){
+        element.classList.add(className);
+    });
+    return element;
 };
