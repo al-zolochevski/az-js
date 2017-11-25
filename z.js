@@ -1,7 +1,7 @@
 /**
  * @param {Element} element
 */
-window.az = function (element) {
+window.z = function (element) {
     return {
         remove: function () {
             element.parentNode.removeChild(element);
@@ -26,7 +26,7 @@ window.az = function (element) {
 
             // TODO: hide(element)
             element.style.display = "none";
-            az(wrapper).remove();
+            z(wrapper).remove();
         }
     };
 };
@@ -36,7 +36,7 @@ window.az = function (element) {
  * @param {string[]} classNames
  * @return {Element}
  */
-window.az.create = function(tagName, classNames) {
+window.z.create = function(tagName, classNames) {
     var element = document.createElement(tagName);
     classNames.forEach(function (className){
         element.classList.add(className);
