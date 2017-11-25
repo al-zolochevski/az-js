@@ -1,7 +1,17 @@
 /**
- * @param {Element} element
+ * @param {Element|String} argument
 */
-window.z = function (element) {
+window.z = function (argument) {
+    var element;
+
+    if (typeof(argument) === 'string' ) {
+        element = document.querySelector(argument);
+    } else if (typeof(argument) === 'object' && argument instanceof Element) {
+        element = argument;
+    } else {
+        throw new TypeError('argument should be CSS selector or DOM element. You passed ' + argument);
+    }
+
     return {
         remove: function () {
             element.parentNode.removeChild(element);
