@@ -2,41 +2,47 @@
  * @param {Element|String} argument
 */
 window.z = function (argument) {
-    var element;
+    var elements;
 
     if (typeof(argument) === 'string' ) {
-        element = document.querySelector(argument);
+        elements = document.querySelectorAll(argument);
     } else if (typeof(argument) === 'object' && argument instanceof Element) {
-        element = argument;
+        elements = [argument];
     } else {
         throw new TypeError('argument should be CSS selector or DOM element. You passed ' + argument);
     }
 
     return {
         remove: function () {
-            element.parentNode.removeChild(element);
+            elements.forEach(function (element) {
+                element.parentNode.removeChild(element);
+            });
         },
 
         /**
          * @param {Element} wrapper
          */
         wrap: function(wrapper) {
-            var parent = element.parentNode;
-            parent.insertBefore(wrapper, element);
-            wrapper.appendChild(element);
+            elements.forEach(function (element) {
+                var parent = element.parentNode;
+                parent.insertBefore(wrapper, element);
+                wrapper.appendChild(element);
+            });
         },
 
         /**
          * @param {Element} wrapper
          */
         unwrap: function(wrapper) {
-            // TODO: insertBefore(element, wrapper)
-            var parent = wrapper.parentNode;
-            parent.insertBefore(element, wrapper);
+            elements.forEach(function (element) {
+                // TODO: insertBefore(element, wrapper)
+                var parent = wrapper.parentNode;
+                parent.insertBefore(element, wrapper);
 
-            // TODO: hide(element)
-            element.style.display = "none";
-            z(wrapper).remove();
+                // TODO: hide(element)
+                element.style.display = "none";
+                z(wrapper).remove();
+            });
         }
     };
 };
