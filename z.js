@@ -19,6 +19,12 @@ window.z = function (argument) {
             });
         },
 
+        show: function () {
+            elements.forEach(function (element) {
+                element.style.display = "block";
+            });
+        },
+
         /**
          * @param {Element} wrapper
          */
@@ -42,6 +48,16 @@ window.z = function (argument) {
                 // TODO: hide(element)
                 element.style.display = "none";
                 z(wrapper).remove();
+            });
+        },
+
+        /**
+         * @param {String} eventType
+         * @param {Function} listener
+         */
+        on: function (eventType, listener) {
+            elements.forEach(function (element) {
+                element.addEventListener(eventType, listener)
             });
         }
     };
