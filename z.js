@@ -59,6 +59,14 @@ window.z = function (argument) {
             elements.forEach(function (element) {
                 element.addEventListener(eventType, listener)
             });
+        },
+
+        /**
+         * @return {Boolean}
+         */
+        isOnScreen: function() {
+            var rect = elements[0].getBoundingClientRect();
+            return (rect.top >= 0) && (rect.bottom <= window.innerHeight);
         }
     };
 };
