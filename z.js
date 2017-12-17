@@ -1,10 +1,10 @@
 /**
  * @param {Window|Element|String} argument
-*/
+ */
 window.z = function (argument) {
     var elements;
 
-    if (typeof(argument) === 'string' ) {
+    if (typeof(argument) === 'string') {
         elements = document.querySelectorAll(argument);
     } else if ((argument instanceof Element) || (argument === window)) {
         elements = [argument];
@@ -12,7 +12,10 @@ window.z = function (argument) {
         throw new TypeError('argument should be CSS selector or DOM element. You passed ' + argument);
     }
 
-    return {
+    var result = {
+
+        elements: elements,
+
         remove: function () {
             elements.forEach(function (element) {
                 element.parentNode.removeChild(element);
@@ -28,7 +31,7 @@ window.z = function (argument) {
         /**
          * @param {Element} wrapper
          */
-        wrap: function(wrapper) {
+        wrap: function (wrapper) {
             elements.forEach(function (element) {
                 var parent = element.parentNode;
                 parent.insertBefore(wrapper, element);
@@ -39,7 +42,7 @@ window.z = function (argument) {
         /**
          * @param {Element} wrapper
          */
-        unwrap: function(wrapper) {
+        unwrap: function (wrapper) {
             elements.forEach(function (element) {
                 // TODO: insertBefore(element, wrapper)
                 var parent = wrapper.parentNode;
@@ -64,7 +67,7 @@ window.z = function (argument) {
         /**
          * @return {Boolean}
          */
-        isOnScreen: function() {
+        isOnScreen: function () {
             var rect = elements[0].getBoundingClientRect();
             return (rect.top >= 0) && (rect.bottom <= window.innerHeight);
         },
@@ -73,7 +76,7 @@ window.z = function (argument) {
          * @param {String} className
          */
         addClass: function (className) {
-            elements.forEach( function (element) {
+            elements.forEach(function (element) {
                 element.classList.add(className);
             })
         },
@@ -82,12 +85,17 @@ window.z = function (argument) {
          * @param {String} className
          */
         removeClass: function (className) {
-            elements.forEach( function (element) {
+            elements.forEach(function (element) {
                 element.classList.remove(className);
             })
         }
     };
 
+    for (var i = 0; i < elements.length; i++) {
+        result[i] = elements[i];
+    }
+
+    return result;
 };
 
 /**
@@ -95,9 +103,9 @@ window.z = function (argument) {
  * @param {string[]} classNames
  * @return {Element}
  */
-window.z.create = function(tagName, classNames) {
+window.z.create = function (tagName, classNames) {
     var element = document.createElement(tagName);
-    classNames.forEach(function (className){
+    classNames.forEach(function (className) {
         element.classList.add(className);
     });
     return element;
