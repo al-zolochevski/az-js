@@ -1,12 +1,12 @@
 /**
- * @param {Element|String} argument
+ * @param {Window|Element|String} argument
 */
 window.z = function (argument) {
     var elements;
 
     if (typeof(argument) === 'string' ) {
         elements = document.querySelectorAll(argument);
-    } else if (typeof(argument) === 'object' && argument instanceof Element) {
+    } else if ((argument instanceof Element) || (argument === window)) {
         elements = [argument];
     } else {
         throw new TypeError('argument should be CSS selector or DOM element. You passed ' + argument);
@@ -67,8 +67,27 @@ window.z = function (argument) {
         isOnScreen: function() {
             var rect = elements[0].getBoundingClientRect();
             return (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+        },
+
+        /**
+         * @param {String} className
+         */
+        addClass: function (className) {
+            elements.forEach( function (element) {
+                element.classList.add(className);
+            })
+        },
+
+        /**
+         * @param {String} className
+         */
+        removeClass: function (className) {
+            elements.forEach( function (element) {
+                element.classList.remove(className);
+            })
         }
     };
+
 };
 
 /**
