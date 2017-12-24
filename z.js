@@ -28,6 +28,12 @@ window.z = function (argument) {
             });
         },
 
+        hide: function () {
+            elements.forEach(function (element) {
+                element.style.display = "none";
+            });
+        },
+
         /**
          * @param {Element} wrapper
          */
@@ -48,8 +54,7 @@ window.z = function (argument) {
                 var parent = wrapper.parentNode;
                 parent.insertBefore(element, wrapper);
 
-                // TODO: hide(element)
-                element.style.display = "none";
+                z(element).hide();
                 z(wrapper).remove();
             });
         },
@@ -70,6 +75,13 @@ window.z = function (argument) {
         isOnScreen: function () {
             var rect = elements[0].getBoundingClientRect();
             return (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+        },
+
+        /**
+         * @return {Boolean}
+         */
+        isVisible: function () {
+            return getComputedStyle(this.elements[0]).display  !== "none";
         },
 
         /**
